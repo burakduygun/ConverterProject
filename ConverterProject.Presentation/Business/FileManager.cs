@@ -40,28 +40,24 @@ namespace ConverterProject.Presentation.Business
                         string productKey = worksheet.Cells[row, 1].Value.ToString()!;
                         string xmlData = CleanXmlData(worksheet.Cells[row, 2].Value.ToString()!);
 
-                        if (xmlData.StartsWith(AppConstants.StartNode))
+                        try
                         {
-                            try
-                            {
-                                TINFOs tINFOs = DeserializeXmlData(xmlData);
+                            TINFOs tINFOs = DeserializeXmlData(xmlData);
 
-                                Dictionary<string, string> rowData = new Dictionary<string, string>();
+                            Dictionary<string, string> rowData = new Dictionary<string, string>();
 
-                                tINFOs.USAGESTAT?.FORMS?.ForEach(form => rowData[form.Name] = form.UsageCount.ToString());
+                            tINFOs.USAGESTAT?.FORMS?.ForEach(form => rowData[form.Name] = form.UsageCount.ToString());
 
-                                tINFOs.FIRMSTAT?.ROW?.COLS?.ForEach(col => rowData[col.Name] = col.Value.ToString());
+                            tINFOs.FIRMSTAT?.ROW?.COLS?.ForEach(col => rowData[col.Name] = col.Value.ToString());
 
-                                csvDataList.Add((productKey, rowData));
-                            }
-                            catch (InvalidOperationException ex)
-                            {
-                                failedRow++;
-                                Logger.Error($"Satır {row}: XML verisi işlenemedi. Error: {ex.Message}");
-                            }
+                            csvDataList.Add((productKey, rowData));
                         }
-                        else
-                            throw new Exception("Dosya formatı uygun değil!");
+                        catch (InvalidOperationException ex)
+                        {
+                            failedRow++;
+                            Logger.Error($"Satır {row}: XML verisi işlenemedi. Error: {ex.Message}");
+                        }
+
                     }
                 }
 

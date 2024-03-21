@@ -42,18 +42,7 @@ namespace ConverterProject.Presentation.Business
 
                         try
                         {
-                            TINFOs tINFOs = DeserializeXmlData(xmlData);
-
-                            Dictionary<string, string> rowData = new Dictionary<string, string>();
-
-                            tINFOs.USAGESTAT?.FORMS?.ForEach(form => rowData[form.Name] = form.UsageCount.ToString());
-
-                            rowData["DBSIZE"] = tINFOs.DBINFORMATION?.DB?.DBSIZE?.Value.ToString()!;
-
-                            rowData["LICENSEDUSERCOUNT"] = tINFOs.USERINFORMATION?.LICENSEDUSERCOUNT?.Value.ToString()!;
-                            rowData["USERCOUNT"] = tINFOs.USERINFORMATION?.USERCOUNT?.Value.ToString()!;
-                            rowData["LEMACTIVE"] = tINFOs.USERINFORMATION?.LEMACTIVE?.Value.ToString()!;
-                            rowData["MOBILEUSERCOUNT"] = tINFOs.USERINFORMATION?.MOBILEUSERCOUNT?.Value.ToString()!;
+                            Dictionary<string, string> rowData = ProcessXmlData(xmlData);
 
                             csvDataList.Add((productKey, rowData));
                         }
@@ -66,12 +55,15 @@ namespace ConverterProject.Presentation.Business
                 }
 
                 WriteToCsv(csvDataList, writeFilePath, customFileName);
-                message = $"Dönüştürme işlemi tamamlandı. " +
-                                $"\nToplam kayıt sayısı: {allRow} " +
-                                $"\nBaşarılı kayıt sayısı: {allRow - failedRow}" +
-                                $"\nHatalı kayıt sayısı: {failedRow}" +
-                                $"\nHatalı kayıtlar için {ConfigurationManager.AppSettings["serilog:write-to:File.path"]} log dosyasını inceleyebilirsiniz.";
-            }
+
+                message =   $"Dönüştürme işlemi tamamlandı. " +
+                            $"\nToplam kayıt sayısı: {allRow} " +
+                            $"\nBaşarılı kayıt sayısı: {allRow - failedRow}" +
+                            $"\nHatalı kayıt sayısı: {failedRow}" +
+                            $"\nHatalı kayıtlar için " +
+                            $"{ Path.GetFullPath(ConfigurationManager.AppSettings["serilog:write-to:File.path"]!)}" +
+                            $"dosyasını inceleyebilirsiniz.";
+        }
             catch (Exception ex)
             {
                 message = "Dönüştürme sırasında bir hata oluştu: " + ex.Message;
@@ -109,6 +101,43 @@ namespace ConverterProject.Presentation.Business
         private static string CleanXmlData(string xmlData)
         {
             return xmlData.Trim();
+        }
+
+        public static Dictionary<string, string> ProcessXmlData(string xmlData)
+        {
+            TINFOs tINFOs = DeserializeXmlData(xmlData);
+
+            Dictionary<string, string> rowData = new Dictionary<string, string>();
+
+            ProcessUsageStats(tINFOs.USAGESTAT?.FORMS!, rowData);
+            //ProcessFirmStats(tINFOs.FIRMSTAT, rowData);
+            ProcessDBInformation(tINFOs.DBINFORMATION, rowData);
+            ProcessUserInformation(tINFOs.USERINFORMATION, rowData);
+
+            return rowData;
+        }
+
+        public static void ProcessDBInformation(DBInformation? dbInfo, Dictionary<string, string> rowData)
+        {
+            rowData["DBSIZE"] = dbInfo!.DB?.DBSIZE?.Value.ToString()!;
+        }
+
+        public static void ProcessFirmStats(FirmStat? firmStat, Dictionary<string, string> rowData)
+        {
+            firmStat?.ROW?.COLS?.ForEach(col => rowData[col.Name] = col.Value.ToString());
+        }
+
+        public static void ProcessUsageStats(List<UsageStatForm> forms, Dictionary<string, string> rowData)
+        {
+            forms?.ForEach(form => rowData[form.Name] = form.UsageCount.ToString()!);
+        }
+
+        public static void ProcessUserInformation(UserInformation? userInfo, Dictionary<string, string> rowData)
+        {
+            rowData["LICENSEDUSERCOUNT"] = userInfo?.LICENSEDUSERCOUNT?.Value.ToString()!;
+            rowData["USERCOUNT"] = userInfo?.USERCOUNT?.Value.ToString()!;
+            rowData["LEMACTIVE"] = userInfo?.LEMACTIVE?.Value.ToString()!;
+            rowData["MOBILEUSERCOUNT"] = userInfo?.MOBILEUSERCOUNT?.Value.ToString()!;
         }
     }
 }

@@ -48,7 +48,12 @@ namespace ConverterProject.Presentation.Business
 
                             tINFOs.USAGESTAT?.FORMS?.ForEach(form => rowData[form.Name] = form.UsageCount.ToString());
 
-                            tINFOs.FIRMSTAT?.ROW?.COLS?.ForEach(col => rowData[col.Name] = col.Value.ToString());
+                            rowData["DBSIZE"] = tINFOs.DBINFORMATION?.DB?.DBSIZE?.Value.ToString()!;
+
+                            rowData["LICENSEDUSERCOUNT"] = tINFOs.USERINFORMATION?.LICENSEDUSERCOUNT?.Value.ToString()!;
+                            rowData["USERCOUNT"] = tINFOs.USERINFORMATION?.USERCOUNT?.Value.ToString()!;
+                            rowData["LEMACTIVE"] = tINFOs.USERINFORMATION?.LEMACTIVE?.Value.ToString()!;
+                            rowData["MOBILEUSERCOUNT"] = tINFOs.USERINFORMATION?.MOBILEUSERCOUNT?.Value.ToString()!;
 
                             csvDataList.Add((productKey, rowData));
                         }
@@ -57,7 +62,6 @@ namespace ConverterProject.Presentation.Business
                             failedRow++;
                             Logger.Error($"Satır {row}: XML verisi işlenemedi. Error: {ex.Message}");
                         }
-
                     }
                 }
 

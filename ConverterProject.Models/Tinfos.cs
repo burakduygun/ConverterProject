@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using Microsoft.VisualBasic;
+using System.Xml.Serialization;
 
 namespace ConverterProject.Models
 {
@@ -11,5 +12,11 @@ namespace ConverterProject.Models
 
         [XmlElement(ElementName = "FIRMSTAT")]
         public FirmStat FIRMSTAT { get; set; }
+
+        [XmlElement(ElementName = "DBINFORMATION")]
+        public DBInformation DBINFORMATION { get; set; }
+
+        [XmlElement(ElementName = "USERINFORMATION")]
+        public UserInformation USERINFORMATION { get; set; }
     }
 }

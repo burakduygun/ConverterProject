@@ -7,15 +7,15 @@ namespace ConverterProject.Models
     {
 
         [XmlElement(ElementName = "LICENSEDUSERCOUNT")]
-        public LicensedUserCount LICENSEDUSERCOUNT { get; set; }
+        public LicensedUserCount LicensedUserCount { get; set; }
 
         [XmlElement(ElementName = "USERCOUNT")]
-        public UserCount USERCOUNT { get; set; }
+        public UserCount UserCount { get; set; }
 
         [XmlElement(ElementName = "LEMACTIVE")]
-        public LemActive LEMACTIVE { get; set; }
+        public LemActive LemActive { get; set; }
 
         [XmlElement(ElementName = "MOBILEUSERCOUNT")]
-        public MobileUserCount MOBILEUSERCOUNT { get; set; }
+        public MobileUserCount MobileUserCount { get; set; }
     }
 }

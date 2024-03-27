@@ -7,6 +7,6 @@ namespace ConverterProject.Models
     {
 
         [XmlElement(ElementName = "FORM")]
-        public List<UsageStatForm> FORMS { get; set; }
+        public List<UsageStatForm> Forms { get; set; }
     }
 }

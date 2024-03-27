@@ -7,6 +7,6 @@ namespace ConverterProject.Models
     {
 
         [XmlElement(ElementName = "ROW")]
-        public Row ROW { get; set; }
+        public Row Row { get; set; }
     }
 }

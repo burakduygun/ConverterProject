@@ -7,6 +7,6 @@ namespace ConverterProject.Models
     {
 
         [XmlElement(ElementName = "COL")]
-        public List<Col> COLS { get; set; }
+        public List<Col> Cols { get; set; }
     }
 }

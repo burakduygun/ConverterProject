@@ -4,9 +4,9 @@ using System.Xml.Serialization;
 namespace ConverterProject.Models
 {
     [XmlRoot(ElementName = "DB")]
-    public class DB
+    public class Db
     {
         [XmlElement(ElementName = "DBSIZE")]
-        public DbSize DBSIZE { get; set; }
+        public DbSize DbSize { get; set; }
     }
 }

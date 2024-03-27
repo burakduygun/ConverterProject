@@ -3,10 +3,7 @@
 namespace ConverterProject.Models
 {
     [XmlRoot(ElementName = "USERCOUNT")]
-    public class UserCount
+    public class UserCount : ValueObjectBase
     {
-
-        [XmlAttribute(AttributeName = "Value")]
-        public int Value { get; set; }
     }
 }

@@ -40,10 +40,11 @@ namespace ConverterProject.Presentation.Business
                         string productKey = worksheet.Cells[row, 1].Value.ToString()!;
                         string xmlData = CleanXmlData(worksheet.Cells[row, 2].Value.ToString()!);
 
+                        xmlData = xmlData.Replace("TINFOs", "TINFOS");
+
                         try
                         {
                             Dictionary<string, string> rowData = ProcessXmlData(xmlData);
-
                             csvDataList.Add((productKey, rowData));
                         }
                         catch (InvalidOperationException ex)
@@ -56,14 +57,14 @@ namespace ConverterProject.Presentation.Business
 
                 WriteToCsv(csvDataList, writeFilePath, customFileName);
 
-                message =   $"Dönüştürme işlemi tamamlandı. " +
+                message = $"Dönüştürme işlemi tamamlandı. " +
                             $"\nToplam kayıt sayısı: {allRow} " +
                             $"\nBaşarılı kayıt sayısı: {allRow - failedRow}" +
                             $"\nHatalı kayıt sayısı: {failedRow}" +
                             $"\nHatalı kayıtlar için " +
-                            $"{ Path.GetFullPath(ConfigurationManager.AppSettings["serilog:write-to:File.path"]!)}" +
+                            $"{Path.GetFullPath(ConfigurationManager.AppSettings["serilog:write-to:File.path"]!)} " +
                             $"dosyasını inceleyebilirsiniz.";
-        }
+            }
             catch (Exception ex)
             {
                 message = "Dönüştürme sırasında bir hata oluştu: " + ex.Message;
@@ -73,12 +74,12 @@ namespace ConverterProject.Presentation.Business
                 MessageBox.Show(message, "Result", MessageBoxButtons.OK);
         }
 
-        public static TINFOs DeserializeXmlData(string xmlData)
+        public static Tinfos DeserializeXmlData(string xmlData)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(TINFOs));
+            XmlSerializer serializer = new XmlSerializer(typeof(Tinfos));
             using (StringReader reader = new StringReader(xmlData))
             {
-                return (TINFOs)serializer.Deserialize(reader)!;
+                return (Tinfos)serializer.Deserialize(reader)!;
             }
         }
 
@@ -105,26 +106,27 @@ namespace ConverterProject.Presentation.Business
 
         public static Dictionary<string, string> ProcessXmlData(string xmlData)
         {
-            TINFOs tINFOs = DeserializeXmlData(xmlData);
+            Tinfos tINFOs = DeserializeXmlData(xmlData);
 
             Dictionary<string, string> rowData = new Dictionary<string, string>();
 
-            ProcessUsageStats(tINFOs.USAGESTAT?.FORMS!, rowData);
+            ProcessUsageStats(tINFOs.UsageStat?.Forms!, rowData);
             //ProcessFirmStats(tINFOs.FIRMSTAT, rowData);
-            ProcessDBInformation(tINFOs.DBINFORMATION, rowData);
-            ProcessUserInformation(tINFOs.USERINFORMATION, rowData);
+            ProcessAppInformation(tINFOs.AppInformation, rowData);
+            ProcessDBInformation(tINFOs.DbInformation, rowData);
+            ProcessUserInformation(tINFOs.UserInformation, rowData);
 
             return rowData;
         }
 
-        public static void ProcessDBInformation(DBInformation? dbInfo, Dictionary<string, string> rowData)
+        public static void ProcessDBInformation(DbInformation? dbInfo, Dictionary<string, string> rowData)
         {
-            rowData["DBSIZE"] = dbInfo!.DB?.DBSIZE?.Value.ToString()!;
+            rowData["DBSIZE"] = ValueObjectBase.GetValue(dbInfo?.Db?.DbSize!);
         }
 
         public static void ProcessFirmStats(FirmStat? firmStat, Dictionary<string, string> rowData)
         {
-            firmStat?.ROW?.COLS?.ForEach(col => rowData[col.Name] = col.Value.ToString());
+            firmStat?.Row?.Cols?.ForEach(col => rowData[col.Name] = col.Value.ToString());
         }
 
         public static void ProcessUsageStats(List<UsageStatForm> forms, Dictionary<string, string> rowData)
@@ -134,10 +136,14 @@ namespace ConverterProject.Presentation.Business
 
         public static void ProcessUserInformation(UserInformation? userInfo, Dictionary<string, string> rowData)
         {
-            rowData["LICENSEDUSERCOUNT"] = userInfo?.LICENSEDUSERCOUNT?.Value.ToString()!;
-            rowData["USERCOUNT"] = userInfo?.USERCOUNT?.Value.ToString()!;
-            rowData["LEMACTIVE"] = userInfo?.LEMACTIVE?.Value.ToString()!;
-            rowData["MOBILEUSERCOUNT"] = userInfo?.MOBILEUSERCOUNT?.Value.ToString()!;
+            rowData["USERCOUNT"] = ValueObjectBase.GetValue(userInfo?.UserCount!)!;
+            rowData["LICENSEDUSERCOUNT"] = ValueObjectBase.GetValue(userInfo?.LicensedUserCount!)!;
+            rowData["MOBILEUSERCOUNT"] = userInfo?.MobileUserCount?.Value.ToString()!;
+        }
+
+        public static void ProcessAppInformation(AppInformation? appInfo, Dictionary<string, string> rowData)
+        {
+            rowData["APPVERSION"] = ValueObjectBase.GetValue(appInfo?.AppVersion!)!;
         }
     }
 }

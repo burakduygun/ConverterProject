@@ -10,6 +10,6 @@ namespace ConverterProject.Models
         public string Name { get; set; }
 
         [XmlAttribute(AttributeName = "Value")]
-        public int Value { get; set; }
+        public string Value { get; set; }
     }
 }

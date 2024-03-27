@@ -3,10 +3,10 @@
 namespace ConverterProject.Models
 {
     [XmlRoot(ElementName = "DBINFORMATION")]
-    public class DBInformation
+    public class DbInformation
     {
 
         [XmlElement(ElementName = "DB")]
-        public DB DB { get; set; }
+        public Db Db { get; set; }
     }
 }

@@ -84,7 +84,7 @@
             btn_convert.Name = "btn_convert";
             btn_convert.Size = new Size(689, 40);
             btn_convert.TabIndex = 6;
-            btn_convert.Text = "Converter";
+            btn_convert.Text = "Convert";
             btn_convert.UseVisualStyleBackColor = false;
             btn_convert.Click += btn_convert_Click;
             // 

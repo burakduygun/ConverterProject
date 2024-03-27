@@ -3,10 +3,7 @@
 namespace ConverterProject.Models
 {
     [XmlRoot(ElementName = "DBSIZE")]
-    public class DbSize
+    public class DbSize : ValueObjectBase
     {
-
-        [XmlAttribute(AttributeName = "Value")]
-        public int Value { get; set; }
     }
 }

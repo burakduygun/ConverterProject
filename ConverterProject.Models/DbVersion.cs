@@ -2,16 +2,16 @@
 
 namespace ConverterProject.Models
 {
-    [XmlRoot(ElementName = "MOBILEUSERCOUNT")]
-    public class MobileUserCount
+    [XmlRoot(ElementName = "DBVERSION")]
+    public class DbVersion
     {
 
         [XmlAttribute(AttributeName = "Value")]
-        public int Value { get; set; }
+        public string Value { get; set; }
 
         public override string ToString()
         {
-            return Value.ToString();
+            return Value;
         }
     }
 }

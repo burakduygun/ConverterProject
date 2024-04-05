@@ -2,13 +2,11 @@
 
 namespace ConverterProject.Models
 {
-    [XmlRoot(ElementName = "MOBILEUSERCOUNT")]
-    public class MobileUserCount
+    [XmlRoot(ElementName = "DATAWIDTH_BIT")]
+    public class DataWidthBit
     {
-
         [XmlAttribute(AttributeName = "Value")]
         public int Value { get; set; }
-
         public override string ToString()
         {
             return Value.ToString();

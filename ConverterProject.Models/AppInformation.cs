@@ -7,5 +7,11 @@ namespace ConverterProject.Models
     {
         [XmlElement(ElementName = "APPVERSION")]
         public AppVersion AppVersion { get; set; }
+
+        [XmlElement(ElementName = "APPGROUP")]
+        public AppGroup AppGroup { get; set; }
+
+        [XmlElement(ElementName = "APPNAME")]
+        public AppName AppName { get; set; }
     }
 }

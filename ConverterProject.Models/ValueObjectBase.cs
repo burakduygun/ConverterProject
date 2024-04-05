@@ -31,5 +31,9 @@ namespace ConverterProject.Models
 
             return str;
         }
+        public override string ToString()
+        {
+            return Value;
+        }
     }
 }

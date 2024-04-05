@@ -111,22 +111,14 @@ namespace ConverterProject.Presentation.Business
             Dictionary<string, string> rowData = new Dictionary<string, string>();
 
             ProcessUsageStats(tINFOs.UsageStat?.Forms!, rowData);
-            //ProcessFirmStats(tINFOs.FIRMSTAT, rowData);
             ProcessAppInformation(tINFOs.AppInformation, rowData);
+            ProcessInsightInformation(tINFOs.InsightInformation, rowData);
+            ProcessSystemInformation(tINFOs.SystemInformation, rowData);
             ProcessDBInformation(tINFOs.DbInformation, rowData);
             ProcessUserInformation(tINFOs.UserInformation, rowData);
+            ProcessFirmStats(tINFOs.FirmStat, rowData);
 
             return rowData;
-        }
-
-        public static void ProcessDBInformation(DbInformation? dbInfo, Dictionary<string, string> rowData)
-        {
-            rowData["DBSIZE"] = ValueObjectBase.GetValue(dbInfo?.Db?.DbSize!);
-        }
-
-        public static void ProcessFirmStats(FirmStat? firmStat, Dictionary<string, string> rowData)
-        {
-            firmStat?.Row?.Cols?.ForEach(col => rowData[col.Name] = col.Value.ToString());
         }
 
         public static void ProcessUsageStats(List<UsageStatForm> forms, Dictionary<string, string> rowData)
@@ -134,16 +126,73 @@ namespace ConverterProject.Presentation.Business
             forms?.ForEach(form => rowData[form.Name] = form.UsageCount.ToString()!);
         }
 
-        public static void ProcessUserInformation(UserInformation? userInfo, Dictionary<string, string> rowData)
-        {
-            rowData["USERCOUNT"] = ValueObjectBase.GetValue(userInfo?.UserCount!)!;
-            rowData["LICENSEDUSERCOUNT"] = ValueObjectBase.GetValue(userInfo?.LicensedUserCount!)!;
-            rowData["MOBILEUSERCOUNT"] = userInfo?.MobileUserCount?.Value.ToString()!;
-        }
-
         public static void ProcessAppInformation(AppInformation? appInfo, Dictionary<string, string> rowData)
         {
-            rowData["APPVERSION"] = ValueObjectBase.GetValue(appInfo?.AppVersion!)!;
+            ProcessData(appInfo, rowData);
+        }
+
+        public static void ProcessInsightInformation(InsightInformation? insightInfo, Dictionary<string, string> rowData)
+        {
+            //if (insightInfo != null)
+            //{
+            //    var properties = insightInfo.GetType().GetProperties();
+            //    foreach (var property in properties)
+            //    {
+            //        var value = property.GetValue(insightInfo);
+            //        if (value != null)
+            //        {
+            //            if (property.Name == "MailSchedulerLastSentTime")
+            //            {
+            //                var mailSchedulerLastSentTime = (MailSchedulerLastSentTime)value;
+            //                rowData["nil"] = mailSchedulerLastSentTime.Nil.ToString();
+            //            }
+            //            else
+            //            {
+            //                rowData[property.Name.ToUpper()] = value.ToString()!;
+            //            }
+            //        }
+            //    }
+            //}
+            ProcessData(insightInfo, rowData);
+        }
+
+        public static void ProcessSystemInformation(SystmInformation? systemInfo, Dictionary<string, string> rowData)
+        {
+            ProcessData(systemInfo, rowData);
+        }
+
+        public static void ProcessDBInformation(DbInformation? dbInfo, Dictionary<string, string> rowData)
+        {
+            if (dbInfo != null && dbInfo.Db != null)
+            {
+                ProcessData(dbInfo.Db, rowData);
+            }
+        }
+
+        public static void ProcessUserInformation(UserInformation? userInfo, Dictionary<string, string> rowData)
+        {
+            ProcessData(userInfo, rowData);
+        }
+
+        public static void ProcessFirmStats(FirmStat? firmStat, Dictionary<string, string> rowData)
+        {
+            firmStat?.Row?.Cols?.ForEach(col => rowData[col.Name] = col.Value.ToString());
+        }
+
+        public static void ProcessData<T>(T tagData, Dictionary<string, string> rowData)
+        {
+            if (tagData != null)
+            {
+                var properties = tagData.GetType().GetProperties();
+                foreach (var property in properties)
+                {
+                    var value = property.GetValue(tagData);
+                    if (value != null)
+                    {
+                        rowData[property.Name.ToUpper()] = value.ToString()!;
+                    }
+                }
+            }
         }
     }
 }

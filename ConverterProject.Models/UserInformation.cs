@@ -17,5 +17,9 @@ namespace ConverterProject.Models
 
         [XmlElement(ElementName = "MOBILEUSERCOUNT")]
         public MobileUserCount MobileUserCount { get; set; }
+
+        // yeni eklendi
+        [XmlElement(ElementName = "USERLASTMODIFIEDTIME")]
+        public DateTime UserLastModified { get; set; }
     }
 }

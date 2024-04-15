@@ -27,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ConverterProject.Models\ConverterProject.Models.csproj" />
     <ProjectReference Include="..\ConverterProject.Presentation\ConverterProject.Presentation.csproj" />
   </ItemGroup>
 

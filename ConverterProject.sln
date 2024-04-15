@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConverterProject.Models", "ConverterProject.Models\ConverterProject.Models.csproj", "{F50930C6-ADCE-4A0C-99D3-8D6331850FA9}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConverterProject.Presentation", "ConverterProject.Presentation\ConverterProject.Presentation.csproj", "{39EAE85C-C6C0-4273-A23F-E0A633611265}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConverterProject.Tests", "ConverterProject.Tests\ConverterProject.Tests.csproj", "{16D6CA69-E98D-4C0D-AAD8-CFFE8B2FC1F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConverterProject.Tests", "ConverterProject.Tests\ConverterProject.Tests.csproj", "{16D6CA69-E98D-4C0D-AAD8-CFFE8B2FC1F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +13,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F50930C6-ADCE-4A0C-99D3-8D6331850FA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F50930C6-ADCE-4A0C-99D3-8D6331850FA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F50930C6-ADCE-4A0C-99D3-8D6331850FA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F50930C6-ADCE-4A0C-99D3-8D6331850FA9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{39EAE85C-C6C0-4273-A23F-E0A633611265}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{39EAE85C-C6C0-4273-A23F-E0A633611265}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39EAE85C-C6C0-4273-A23F-E0A633611265}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -10,7 +10,6 @@ namespace ConverterProject.Presentation
         public frm_xmltocsv()
         {
             InitializeComponent();
-            FileManager.CreateTempDirectories();
         }
 
         private void btn_chooseReadFile_Click(object sender, EventArgs e)
